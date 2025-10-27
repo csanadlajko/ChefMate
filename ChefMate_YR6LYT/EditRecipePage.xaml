@@ -6,8 +6,63 @@
              xmlns:local="clr-namespace:ChefMate_YR6LYT">
     <VerticalStackLayout>
         <Label 
-            Text="This is the edit pet page!!"
+            Text="This is the edit recipe page!!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+        <Label 
+            Text="Change recipe's name"/>
+        <Entry 
+            Placeholder="Edited recipe's name"
+            x:Name="EditedRecipeName"
+            Text="{Binding DraftRecipe.Name}"/>
+        <Label
+            Text="Change recipe's description"/>
+        <Entry 
+            Placeholder="Edited recipe's description"
+            x:Name="EditedRecipeDescription"
+            Text="{Binding DraftRecipe.Description}"/>
+        <Label 
+            Text="Preparation time in minutes"/>
+        <Entry 
+            Placeholder="Change recipe preparation time"
+            x:Name="EditedRecipePreparationTime"
+            Text="{Binding DraftRecipe.PreparationTimeMinutes}"/>
+        <Label 
+            Text="Difficulty (can be numeric or string" />
+        <Entry 
+            Placeholder="Difficulty"
+            x:Name="EditedRecipeDifficulty"
+            Text="{Binding DraftRecipe.Difficulty}"/>
+
+        <Label Text="List ingredients" />
+
+        <Label 
+            Text="Ingredient name: "/>
+        <Entry 
+            Placeholder="Name of ingredient"
+            x:Name="EditedIngredientName"
+            Text="{Binding DraftIngredient.Name}"/>
+        <Label 
+            Text="Ingredient description"/>
+        <Entry 
+            Placeholder="Ingredient's short description"
+            x:Name="EditedIngredientDescription"
+            Text="{Binding DraftIngredient.Description}"/>
+        <Label
+            Text="Quantity of ingredient"/>
+        <Entry 
+            Placeholder="Quantity of ingredient"
+            x:Name="EditedIngredientQuantity"
+            Text="{Binding DraftIngredient.Quantity}"/>
+
+        <Button 
+            Text="Cancel"
+            BackgroundColor="Red"
+            Command="{Binding BackToMainPageCommand}"/>
+
+        <Button 
+            Text="Add recipe"
+            BackgroundColor="Green"
+            Command="{Binding EditRecipeCommand}"/>
     </VerticalStackLayout>
 </ContentPage>

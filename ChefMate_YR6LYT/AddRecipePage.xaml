@@ -25,7 +25,9 @@
             Placeholder="Preparation time"
             x:Name="NewRecipePreparationTime"/>
         <Label 
-            Text="Difficulty (can be numeric or string)"
+            Text="Difficulty (can be numeric or string)" />
+        <Entry 
+            Placeholder="Difficulty"
             x:Name="NewRecipeDifficulty"/>
 
         <Label Text="List ingredients" />

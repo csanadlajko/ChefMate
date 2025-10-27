@@ -12,5 +12,11 @@ namespace ChefMate_YR6LYT
     {
         [ObservableProperty]
         Recipes selectedRecipe;
+
+        [ObservableProperty]
+        Recipes draftRecipe;
+
+        [ObservableProperty]
+        Ingredients draftIngredient;
     }
 }
