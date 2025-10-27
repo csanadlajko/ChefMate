@@ -29,11 +29,5 @@ namespace ChefMate_YR6LYT
 
         [ObservableProperty]
         string difficulty;
-
-        [ObservableProperty]
-        double longtitude;
-
-        [ObservableProperty]
-        double latitude;
     }
 }

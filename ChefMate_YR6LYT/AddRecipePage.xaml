@@ -2,11 +2,60 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ChefMate_YR6LYT.AddRecipePage"
-             Title="AddRecipePage">
+             Title="AddRecipePage"
+             xmlns:local="clr-namespace:ChefMate_YR6LYT">
     <VerticalStackLayout>
         <Label 
-            Text="Welcome to .NET MAUI!"
+            Text="This is the add recipe page!!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+        <Label 
+            Text="New recipe name"/>
+        <Entry 
+            Placeholder="Recipe name"
+            x:Name="NewRecipeName"/>
+        <Label
+            Text="New recipe's description"/>
+        <Entry 
+            Placeholder="Recipe description"
+            x:Name="NewRecipeDescription"/>
+        <Label 
+            Text="Preparation time in minutes"/>
+        <Entry 
+            Placeholder="Preparation time"
+            x:Name="NewRecipePreparationTime"/>
+        <Label 
+            Text="Difficulty (can be numeric or string)"
+            x:Name="NewRecipeDifficulty"/>
+
+        <Label Text="List ingredients" />
+
+        <Label 
+            Text="Ingredient name: "/>
+        <Entry 
+            Placeholder="Name of ingredient"
+            x:Name="NewIngredientName"/>
+        <Label 
+            Text="Ingredient description"/>
+        <Entry 
+            Placeholder="Ingredient's short description"
+            x:Name="NewIngredientDescription"/>
+        <Label
+            Text="Quantity of ingredient"/>
+        <Entry 
+            Placeholder="Quantity of ingredient"
+            x:Name="NewIngredientQuantity"/>
+
+        <Button 
+            Text="Cancel"
+            BackgroundColor="Red"
+            Command="{Binding BackToMainPageCommand}"/>
+
+        <Button 
+            Text="Add recipe"
+            BackgroundColor="Green"
+            Command="{Binding AddRecipeCommand}"/>
+
+
     </VerticalStackLayout>
 </ContentPage>
