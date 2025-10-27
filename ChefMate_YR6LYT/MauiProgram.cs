@@ -15,8 +15,17 @@ namespace ChefMate_YR6LYT
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            builder.Services.AddSingleton<MainPageViewModel>();
+            builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddTransient<AddRecipePageViewModel>();
+            builder.Services.AddTransient<AddRecipePage>();
+            builder.Services.AddTransient<EditRecipePageViewModel>();
+            builder.Services.AddTransient<EditRecipePage>();
+            builder.Services.AddSingleton<IChefMateDatabase, SQLiteChefMateDatabase>();
+
+
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();
