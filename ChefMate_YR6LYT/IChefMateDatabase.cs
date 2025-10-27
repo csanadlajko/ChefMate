@@ -27,7 +27,7 @@ namespace ChefMate_YR6LYT
         Task AddIngredientAsync(Ingredients ingredient);
 
         // Get ingredients for a specific recipe
-        Task<List<Ingredients>> GetIngredientsForRecipeAsync(int recipeId);
+        Task<Ingredients> GetIngredientsForRecipeAsync(int recipeId);
 
         // Update ingredient under a recipe
         Task UpdateIngredientAsync(Ingredients ingredient);

@@ -9,64 +9,63 @@ namespace ChefMate_YR6LYT
 {
     public class SQLiteChefMateDatabase : IChefMateDatabase
     {
-        SQLiteAsyncConnection _database;
+        string dbPath = Path.Combine(FileSystem.Current.AppDataDirectory, "chefmate.db3");
 
-        public SQLiteChefMateDatabase(SQLiteAsyncConnection database)
+        SQLiteOpenFlags Flags = SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create;
+
+        SQLiteAsyncConnection database;
+
+        public SQLiteChefMateDatabase()
         {
-            this._database = database;
-            // the tables below should be created in the viewmodel constructor
-            //_database.CreateTableAsync<Recipes>().Wait();
-            //_database.CreateTableAsync<Ingredients>().Wait();
+            database = new SQLiteAsyncConnection(dbPath, Flags);
+            database.CreateTableAsync<Recipes>().Wait();
+            database.CreateTableAsync<Ingredients>().Wait();
         }
 
         public async Task AddIngredientAsync(Ingredients ingredient)
         {
-            _database.Table<Ingredients>();
-            await _database.InsertAsync(ingredient);
+            await database.InsertAsync(ingredient);
         }
 
         public async Task AddRecipeAsync(Recipes recipe)
         {
-            _database.Table<Recipes>();
-            await _database.InsertAsync(recipe);
+            await database.InsertAsync(recipe);
         }
 
         public async Task DeleteIngredientAsync(int id)
         {
-            await _database.DeleteAsync<Ingredients>(id);
+            await database.DeleteAsync<Ingredients>(id);
         }
 
         public async Task DeleteRecipeAsync(int id)
         {
-            await _database.DeleteAsync<Recipes>(id);
+            await database.DeleteAsync<Recipes>(id);
         }
 
         public async Task<List<Recipes>> GetAllRecipesAsync()
         {
-            return await _database.Table<Recipes>().ToListAsync();
+            return await database.Table<Recipes>().ToListAsync();
         }
 
-        public async Task<List<Ingredients>> GetIngredientsForRecipeAsync(int recipeId)
+        public async Task<Ingredients> GetIngredientsForRecipeAsync(int recipeId)
         {
-            return await _database.Table<Ingredients>().ToListAsync();
+            return await database.Table<Ingredients>().Where(ingr => ingr.RecipeId == recipeId).FirstOrDefaultAsync();
         }
 
         public async Task<Recipes> GetRecipeAsync(int id)
         {
-            _database.Table<Recipes>();
-            return await _database.GetAsync<Recipes>(id);
+            database.Table<Recipes>();
+            return await database.Table<Recipes>().Where(rec => rec.Id == id).FirstOrDefaultAsync();
         }
 
         public async Task UpdateIngredientAsync(Ingredients ingredient)
         {
-            _database.Table<Ingredients>();
-            await _database.UpdateAsync(ingredient);
+            await database.UpdateAsync(ingredient);
         }
 
         public async Task UpdateRecipeAsync(Recipes recipe)
         {
-            _database.Table<Recipes>();
-            await _database.UpdateAsync(recipe);
+            await database.UpdateAsync(recipe);
         }
     }
 }
