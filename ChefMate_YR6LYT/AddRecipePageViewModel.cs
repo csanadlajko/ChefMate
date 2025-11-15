@@ -10,13 +10,20 @@ using System.Threading.Tasks;
 namespace ChefMate_YR6LYT
 {
     [QueryProperty(nameof(RecipeToAdd), "NewRecipe")]
+    [QueryProperty(nameof(IngredientsToAdd), "NewIngredients")]
     public partial class AddRecipePageViewModel : ObservableObject
     {
         [ObservableProperty]
         Recipes recipeToAdd;
 
         [ObservableProperty]
-        Recipes draft;
+        Ingredients ingredientsToAdd;
+
+        [ObservableProperty]
+        Recipes draftRecipe;
+
+        [ObservableProperty]
+        Ingredients draftIngredients;
 
         [RelayCommand]
         public async Task CancelAdd()
@@ -29,14 +36,16 @@ namespace ChefMate_YR6LYT
         {
             var param = new ShellNavigationQueryParameters
             {
-                {"NewRecipe", RecipeToAdd }
+                {"NewRecipe", RecipeToAdd },
+                {"NewIngredients", IngredientsToAdd }
             };
             await Shell.Current.GoToAsync("..", param);
         }
 
         public void InitDraft()
         {
-            Draft = RecipeToAdd.Copy();
+            DraftRecipe = RecipeToAdd.Copy();
+            DraftIngredients = IngredientsToAdd.Copy();
         }
     }
 }

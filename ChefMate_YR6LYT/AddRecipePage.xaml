@@ -15,22 +15,22 @@
             Text="New recipe name"/>
         <Entry 
             Placeholder="Recipe name"
-            x:Name="NewRecipeName"/>
+            Text="{Binding DraftRecipe.Name}"/>
         <Label
             Text="New recipe's description"/>
         <Entry 
             Placeholder="Recipe description"
-            x:Name="NewRecipeDescription"/>
+            Text="{Binding DraftRecipe.Description}"/>
         <Label 
             Text="Preparation time in minutes"/>
         <Entry 
             Placeholder="Preparation time"
-            x:Name="NewRecipePreparationTime"/>
+            Text="{Binding DraftRecipe.PreparationTimeMinutes}"/>
         <Label 
             Text="Difficulty (can be numeric or string)" />
         <Entry 
             Placeholder="Difficulty"
-            x:Name="NewRecipeDifficulty"/>
+            Text="{Binding DraftRecipe.Difficulty}"/>
 
         <Label Text="List ingredients" />
 
@@ -38,19 +38,19 @@
             Text="Ingredient name: "/>
         <Entry 
             Placeholder="Name of ingredient"
-            x:Name="NewIngredientName"/>
+            Text="{Binding DraftIngredients.Name}"/>
         <Label 
             Text="Ingredient description"/>
         <Entry 
             Placeholder="Ingredient's short description"
-            x:Name="NewIngredientDescription"/>
+            Text="{Binding DraftIngredients.Description}"/>
         <Label
             Text="Quantity of ingredient"/>
         <Entry 
             Placeholder="Quantity of ingredient"
-            x:Name="NewIngredientQuantity"/>
+            Text="{Binding DraftIngredients.Quantity}"/>
 
-        <Button 
+        <Button
             Text="Cancel"
             BackgroundColor="Red"
             Command="{Binding CancelAddCommand}"/>

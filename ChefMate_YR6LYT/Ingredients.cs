@@ -1,4 +1,5 @@
 ﻿using System;
+using SQLite;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,8 @@ namespace ChefMate_YR6LYT
     public partial class Ingredients : ObservableObject
     {
         [ObservableProperty]
+        [property:PrimaryKey]
+        [property:AutoIncrement]
         int id;
 
         [ObservableProperty]
@@ -29,5 +32,10 @@ namespace ChefMate_YR6LYT
 
         [ObservableProperty]
         string imagePath;
+
+        public Ingredients Copy()
+        {
+            return (Ingredients)this.MemberwiseClone();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace ChefMate_YR6LYT
     public partial class Recipes : ObservableObject
     {
         [ObservableProperty]
+        [property:PrimaryKey]
+        [property:AutoIncrement]
         int id;
 
         [ObservableProperty]

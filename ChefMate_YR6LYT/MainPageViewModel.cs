@@ -9,18 +9,65 @@ using System.Threading.Tasks;
 
 namespace ChefMate_YR6LYT
 {
+    [QueryProperty(nameof(ModifiedRecipe), "NewRecipe")]
+    [QueryProperty(nameof(ModifiedIngredients), "NewIngredients")]
     public partial class MainPageViewModel : ObservableObject
     {
         private IChefMateDatabase database;
-        public ObservableCollection<Recipes> Recipes { get; set; }
+        public ObservableCollection<Recipes> RecipesList { get; set; }
+        public ObservableCollection<Ingredients> IngredientsList { get; set; }
 
         [ObservableProperty]
         Recipes selectedRecipe;
 
+        [ObservableProperty]
+        private Recipes modifiedRecipe;
+
+        [ObservableProperty]
+        private Ingredients modifiedIngredients;
+
         public MainPageViewModel(IChefMateDatabase database)
         {
             this.database = database;
-            Recipes = new ObservableCollection<Recipes>();
+            RecipesList = new ObservableCollection<Recipes>();
+            IngredientsList = new ObservableCollection<Ingredients>();
+        }
+
+        async partial void OnModifiedRecipeChanged(Recipes recipes)
+        {
+            if (recipes != null)
+            {
+                if (SelectedRecipe != null)
+                {
+                    RecipesList.Remove(SelectedRecipe);
+                    SelectedRecipe = null;
+                    await database.UpdateRecipeAsync(recipes);
+                }
+                else
+                    await database.AddRecipeAsync(recipes);
+                RecipesList.Add(recipes);
+            }
+        }
+
+        async partial void OnModifiedIngredientsChanged(Ingredients ingredients)
+        {
+            if (ingredients != null)
+            {
+                if (SelectedRecipe != null)
+                {
+                    await database.UpdateIngredientAsync(ingredients);
+
+                    var existing = IngredientsList.FirstOrDefault(i => i.Id == ingredients.Id);
+                    ingredients.RecipeId = ModifiedRecipe.Id;
+
+                    if (existing != null)
+                        IngredientsList.Remove(existing);
+
+                }
+                else
+                    await database.AddIngredientAsync(ingredients);
+                IngredientsList.Add(ingredients);
+            }
         }
 
         [RelayCommand]
@@ -29,7 +76,8 @@ namespace ChefMate_YR6LYT
             SelectedRecipe = null;
             var param = new ShellNavigationQueryParameters
             {
-                { "NewRecipe", new Recipes() }
+                { "NewRecipe", new Recipes() { CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now } },
+                { "NewIngredients", new Ingredients() { CreatedAt = DateTime.Now } }
             };
             await Shell.Current.GoToAsync("addrecipepage", param);
         }
@@ -54,15 +102,18 @@ namespace ChefMate_YR6LYT
             {
                 int recipeId = SelectedRecipe.Id;
                 await database.DeleteRecipeAsync(recipeId);
-                Recipes.Remove(SelectedRecipe);
+                RecipesList.Remove(SelectedRecipe);
             }
         }
 
         public async Task InitializeAsync()
         {
             var recipes = await database.GetAllRecipesAsync();
-            Recipes.Clear();
-            recipes.ForEach(r => Recipes.Add(r));
+            RecipesList.Clear();
+            recipes.ForEach(r => RecipesList.Add(r));
+            var ingredients = await database.GetAllIngredientsAsync();
+            IngredientsList.Clear();
+            ingredients.ForEach(i => IngredientsList.Add(i));
         }
     }
 }

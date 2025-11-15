@@ -14,6 +14,9 @@ namespace ChefMate_YR6LYT
         // Read all recipes
         Task<List<Recipes>> GetAllRecipesAsync();
 
+        // Read all ingredients when initialiting main page
+        Task<List<Ingredients>> GetAllIngredientsAsync();
+
         // Read a specific recipe by ID
         Task<Recipes> GetRecipeAsync(int id);
 

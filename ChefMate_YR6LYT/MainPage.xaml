@@ -10,27 +10,39 @@
     <Grid RowDefinitions="Auto, Auto, *" RowSpacing="10" WidthRequest="300" Padding="0, 10">
         <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
             <Button Text="Add Recipe" Command="{Binding ShowAddRecipePageCommand}" BackgroundColor="LightSeaGreen"/>
-            <Button Text="Edit Selected Recipe" Command="{Binding ShowAddRecipePageCommand}" BackgroundColor="Orange" />
+            <Button Text="Edit Selected Recipe" Command="{Binding ShowEditRecipePageCommand}" BackgroundColor="Orange" />
             <Button Text="Delete Selected Recipe" Command="{Binding DeleteRecipeCommand}" BackgroundColor="OrangeRed"/>
         </HorizontalStackLayout>
         <Border StrokeThickness="5" Stroke="LightSkyBlue" Grid.Row="2" StrokeShape="RoundRectangle 10">
-            <CollectionView ItemsSource="{Binding Recipes}"
+            <CollectionView ItemsSource="{Binding RecipesList}"
                             SelectedItem="{Binding SelectedRecipe}"
                             SelectionMode="Single"
                             Background="WhiteSmoke">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="local:Recipes">
-                    <!--<SwipeView></SwipeView> swipe to share, might be implemented later on -->
-                    <Border StrokeThickness="2" Stroke="Black" Margin="5" Padding="5" StrokeShape="RoundRectangle 10">
-                        <Grid ColumnDefinitions="3*,*">
-                            <VerticalStackLayout>
-                                <Label Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold"/>
-                                <Label Text="{Binding CreatedAt, StringFormat='Creation time: {0}'}" FontSize="Small"/>
-                            </VerticalStackLayout>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="local:Recipes">
+                        <!--<SwipeView></SwipeView> swipe to share, might be implemented later on -->
+                        <Border StrokeThickness="2" Stroke="Black" Margin="5" Padding="5" StrokeShape="RoundRectangle 10">
+                            <!--visualstatemanager to change background color when selecting an item-->
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Normal"></VisualState>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="LightSkyBlue"></Setter>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <Grid ColumnDefinitions="3*,*">
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold" TextColor="Black"/>
+                                    <Label Text="{Binding UpdatedAt, StringFormat='Last updated at: {0}'}" FontSize="Small" TextColor="Black"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
             </CollectionView>
         </Border>
     </Grid>
