@@ -47,9 +47,9 @@ namespace ChefMate_YR6LYT
             return await database.Table<Recipes>().ToListAsync();
         }
 
-        public async Task<Ingredients> GetIngredientsForRecipeAsync(int recipeId)
+        public async Task<List<Ingredients>> GetIngredientsForRecipeAsync(int recipeId)
         {
-            return await database.Table<Ingredients>().Where(ingr => ingr.RecipeId == recipeId).FirstOrDefaultAsync();
+            return await database.Table<Ingredients>().Where(ingr => ingr.RecipeId == recipeId).ToListAsync();
         }
 
         public async Task<Recipes> GetRecipeAsync(int id)

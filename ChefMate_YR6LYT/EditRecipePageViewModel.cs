@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,26 @@ namespace ChefMate_YR6LYT
 
         [ObservableProperty]
         Ingredients draftIngredient;
+
+        public void InitDraft()
+        {
+            DraftRecipe = SelectedRecipe.Copy();
+        }
+
+        [RelayCommand]
+        public async Task CancelEdit()
+        {
+            await Shell.Current.GoToAsync("..");
+        }
+
+        [RelayCommand]
+        public async Task SaveRecipeChanges()
+        {
+            var param = new ShellNavigationQueryParameters
+            {
+                {"EditedRecipe", DraftRecipe }
+            };
+            await Shell.Current.GoToAsync("..", param);
+        }
     }
 }

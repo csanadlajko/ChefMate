@@ -29,5 +29,10 @@ namespace ChefMate_YR6LYT
 
         [ObservableProperty]
         string difficulty;
+
+        public Recipes Copy()
+        {
+            return (Recipes)this.MemberwiseClone();
+        }
     }
 }

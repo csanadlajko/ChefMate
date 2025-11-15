@@ -53,7 +53,7 @@
         <Button 
             Text="Cancel"
             BackgroundColor="Red"
-            Command="{Binding BackToMainPageCommand}"/>
+            Command="{Binding CancelAddCommand}"/>
 
         <Button 
             Text="Add recipe"

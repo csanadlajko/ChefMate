@@ -26,7 +26,12 @@ namespace ChefMate_YR6LYT
         [RelayCommand]
         public async Task ShowAddRecipePageAsync()
         {
-            await Shell.Current.GoToAsync("addrecipepage");
+            SelectedRecipe = null;
+            var param = new ShellNavigationQueryParameters
+            {
+                { "NewRecipe", new Recipes() }
+            };
+            await Shell.Current.GoToAsync("addrecipepage", param);
         }
 
         [RelayCommand]
