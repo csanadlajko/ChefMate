@@ -28,6 +28,6 @@ namespace ChefMate_YR6LYT
         DateTime createdAt;
 
         [ObservableProperty]
-        string imapePath;
+        string imagePath;
     }
 }

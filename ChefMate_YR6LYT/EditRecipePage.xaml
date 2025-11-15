@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ChefMate_YR6LYT.EditRecipePage"
              Title="EditRecipePage"
-             xmlns:local="clr-namespace:ChefMate_YR6LYT">
+             xmlns:local="clr-namespace:ChefMate_YR6LYT"
+             x:DataType="local:EditRecipePageViewModel">
+    
     <VerticalStackLayout>
         <Label 
             Text="This is the edit recipe page!!"

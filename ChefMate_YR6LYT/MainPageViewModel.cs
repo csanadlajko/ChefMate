@@ -41,5 +41,23 @@ namespace ChefMate_YR6LYT
                 await Shell.Current.GoToAsync("editrecipepage", param);
             }
         }
+
+        [RelayCommand]
+        public async Task DeleteRecipeAsync()
+        {
+            if (SelectedRecipe != null)
+            {
+                int recipeId = SelectedRecipe.Id;
+                await database.DeleteRecipeAsync(recipeId);
+                Recipes.Remove(SelectedRecipe);
+            }
+        }
+
+        public async Task InitializeAsync()
+        {
+            var recipes = await database.GetAllRecipesAsync();
+            Recipes.Clear();
+            recipes.ForEach(r => Recipes.Add(r));
+        }
     }
 }
