@@ -58,7 +58,7 @@ namespace ChefMate_YR6LYT
 
                 RecipesList.Add(recipes);
 
-                if (ModifiedIngredients != null && SelectedRecipe != null)
+                if (ModifiedIngredients != null && SelectedRecipe == null)
                 {
                     foreach (var ingredient in ModifiedIngredients)
                     {
@@ -84,8 +84,6 @@ namespace ChefMate_YR6LYT
 
                 if (recipeId == 0)
                 {
-                    ModifiedIngredients = null;
-                    WeakReferenceMessenger.Default.Send("Failed to save ingredients for new recipe.");
                     return;
                 }
 
@@ -117,7 +115,7 @@ namespace ChefMate_YR6LYT
             var param = new ShellNavigationQueryParameters
             {
                 { "NewRecipe", new Recipes() { CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now } },
-                { "NewIngredients", new Ingredients() { CreatedAt = DateTime.Now } }
+                { "NewIngredients", new ObservableCollection<Ingredients>() }
             };
             await Shell.Current.GoToAsync("addrecipepage", param);
         }

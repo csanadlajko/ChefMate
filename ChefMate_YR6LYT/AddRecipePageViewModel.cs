@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,13 +18,15 @@ namespace ChefMate_YR6LYT
         Recipes recipeToAdd;
 
         [ObservableProperty]
-        Ingredients ingredientsToAdd;
+        ObservableCollection<Ingredients> ingredientsToAdd;
 
-        [ObservableProperty]
-        Recipes draftRecipe;
+        private IChefMateDatabase database;
 
-        [ObservableProperty]
-        Ingredients draftIngredients;
+        public AddRecipePageViewModel(IChefMateDatabase database)
+        {
+            this.database = database;
+            IngredientsToAdd = new ObservableCollection<Ingredients>();
+        }
 
         [RelayCommand]
         public async Task CancelAdd()
@@ -36,16 +39,36 @@ namespace ChefMate_YR6LYT
         {
             var param = new ShellNavigationQueryParameters
             {
-                {"NewRecipe", DraftRecipe },
-                {"NewIngredients", DraftIngredients }
+                {"NewRecipe", RecipeToAdd },
+                {"NewIngredients", IngredientsToAdd.ToList() }
             };
             await Shell.Current.GoToAsync("..", param);
         }
 
-        public void InitDraft()
+        [RelayCommand]
+        public async Task DeleteNewIngredient(Ingredients ingredient)
         {
-            DraftRecipe = RecipeToAdd.Copy();
-            DraftIngredients = IngredientsToAdd.Copy();
+            if (ingredient != null)
+            {
+                await database.DeleteIngredientAsync(ingredient.Id);
+                IngredientsToAdd.Remove(ingredient);
+            }
+            else
+                WeakReferenceMessenger.Default.Send("Ingredient adding failed!");
+        }
+
+        [RelayCommand]
+        public void AddNewIngredient()
+        {
+            Ingredients newIngredient = new Ingredients
+            {
+                RecipeId = RecipeToAdd.Id,
+                Name = string.Empty,
+                Description = string.Empty,
+                Quantity = string.Empty,
+                CreatedAt = DateTime.Now
+            };
+            IngredientsToAdd.Add(newIngredient);
         }
     }
 }

@@ -5,61 +5,92 @@
              Title="AddRecipePage"
              xmlns:local="clr-namespace:ChefMate_YR6LYT"
              x:DataType="local:AddRecipePageViewModel">
-   
-    <VerticalStackLayout>
-        <Label 
-            Text="This is the add recipe page!!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-        <Label 
-            Text="New recipe name"/>
-        <Entry 
-            Placeholder="Recipe name"
-            Text="{Binding DraftRecipe.Name}"/>
-        <Label
-            Text="New recipe's description"/>
-        <Entry 
-            Placeholder="Recipe description"
-            Text="{Binding DraftRecipe.Description}"/>
-        <Label 
-            Text="Preparation time in minutes"/>
-        <Entry 
-            Placeholder="Preparation time"
-            Text="{Binding DraftRecipe.PreparationTimeMinutes}"/>
-        <Label 
-            Text="Difficulty (can be numeric or string)" />
-        <Entry 
-            Placeholder="Difficulty"
-            Text="{Binding DraftRecipe.Difficulty}"/>
 
-        <Label Text="List ingredients" />
+    <Grid Padding="12" RowSpacing="12" RowDefinitions="Auto, *, Auto">
+        <VerticalStackLayout Grid.Row="0" Spacing="8">
+            <Label 
+                Text="This is the add recipe page!!"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+            <Label 
+                Text="New recipe name"/>
+            <Entry 
+                Placeholder="Recipe name"
+                Text="{Binding RecipeToAdd.Name}"/>
+            <Label
+                Text="New recipe's description"/>
+            <Entry 
+                Placeholder="Recipe description"
+                Text="{Binding RecipeToAdd.Description}"/>
+            <Label 
+                Text="Preparation time in minutes"/>
+            <Entry 
+                Placeholder="Preparation time"
+                Text="{Binding RecipeToAdd.PreparationTimeMinutes}"/>
+            <Label 
+                Text="Difficulty (can be numeric or string)" />
+            <Entry 
+                Placeholder="Difficulty"
+                Text="{Binding RecipeToAdd.Difficulty}"/>
 
-        <Label 
-            Text="Ingredient name: "/>
-        <Entry 
-            Placeholder="Name of ingredient"
-            Text="{Binding DraftIngredients.Name}"/>
-        <Label 
-            Text="Ingredient description"/>
-        <Entry 
-            Placeholder="Ingredient's short description"
-            Text="{Binding DraftIngredients.Description}"/>
-        <Label
-            Text="Quantity of ingredient"/>
-        <Entry 
-            Placeholder="Quantity of ingredient"
-            Text="{Binding DraftIngredients.Quantity}"/>
+            <Label Text="List ingredients" FontAttributes="Bold"/>
 
-        <Button
-            Text="Cancel"
-            BackgroundColor="Red"
-            Command="{Binding CancelAddCommand}"/>
+            <Button Text="Add ingredients" BackgroundColor="ForestGreen" Command="{Binding AddNewIngredientCommand}" />
+        </VerticalStackLayout>
 
-        <Button 
-            Text="Add recipe"
-            BackgroundColor="Green"
-            Command="{Binding AddRecipeCommand}"/>
+        <CollectionView ItemsSource="{Binding IngredientsToAdd}"
+                        SelectionMode="None"
+                        Grid.Row="1"
+                        ItemsLayout="VerticalList">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:Ingredients">
+                    <Border StrokeThickness="1" Margin="4" StrokeShape="RoundRectangle 6" Padding="8">
+                        <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto, Auto" ColumnSpacing="8">
+                            <VerticalStackLayout Grid.Column="0">
+                                <Label 
+                                    Text="Ingredient name: "/>
+                                <Entry 
+                                    Placeholder="Name of ingredient"
+                                    Text="{Binding Name, Mode=TwoWay}"/>
+                                <Label 
+                                    Text="Ingredient description"/>
+                                <Entry 
+                                    Placeholder="Ingredient's short description"
+                                    Text="{Binding Description, Mode=TwoWay}"/>
+                                <Label
+                                    Text="Quantity of ingredient"/>
+                                <Entry 
+                                    Placeholder="Quantity of ingredient"
+                                    Text="{Binding Quantity, Mode=TwoWay}"/>
+                                <Label Text="Ingredient created at" />
+                                <Entry Placeholder="Ingredient created at"
+                                       Text="{Binding CreatedAt, Mode=TwoWay}"
+                                       IsReadOnly="True"/>
+                            </VerticalStackLayout>
 
+                            <Button Grid.Column="1"
+                                    Text="Remove"
+                                    Command="{Binding BindingContext.DeleteNewIngredientCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                    CommandParameter="{Binding .}"
+                                    VerticalOptions="Start"
+                                    BackgroundColor="OrangeRed"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
-    </VerticalStackLayout>
+        <VerticalStackLayout Grid.Row="2" Spacing="8">
+            <Button
+                Text="Cancel"
+                BackgroundColor="Red"
+                Command="{Binding CancelAddCommand}"/>
+
+            <Button 
+                Text="Add recipe"
+                BackgroundColor="Green"
+                Command="{Binding AddRecipeCommand}"/>
+        </VerticalStackLayout>
+
+    </Grid>
 </ContentPage>

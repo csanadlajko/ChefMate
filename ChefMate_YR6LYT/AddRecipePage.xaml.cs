@@ -14,6 +14,5 @@ public partial class AddRecipePage : ContentPage
     protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
-        viewModel.InitDraft();
     }
 }
