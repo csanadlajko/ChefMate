@@ -95,9 +95,11 @@ namespace ChefMate_YR6LYT
         {
             if (SelectedRecipe != null)
             {
+                var ingredients = await database.GetIngredientsForRecipeAsync(SelectedRecipe.Id);
                 var param = new ShellNavigationQueryParameters
                 {
-                    {"SelectedRecipe", SelectedRecipe }
+                    {"SelectedRecipe", SelectedRecipe },
+                    {"IngredientsForRecipe", ingredients }
                 };
                 await Shell.Current.GoToAsync("editrecipepage", param);
             }
