@@ -10,9 +10,9 @@ namespace ChefMate_YR6LYT
 {
     public partial class Ingredients : ObservableObject
     {
+        [property: SQLite.PrimaryKey]
+        [property: SQLite.AutoIncrement]
         [ObservableProperty]
-        [property:PrimaryKey]
-        [property:AutoIncrement]
         int id;
 
         [ObservableProperty]

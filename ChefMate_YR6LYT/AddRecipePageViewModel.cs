@@ -36,8 +36,8 @@ namespace ChefMate_YR6LYT
         {
             var param = new ShellNavigationQueryParameters
             {
-                {"NewRecipe", RecipeToAdd },
-                {"NewIngredients", IngredientsToAdd }
+                {"NewRecipe", DraftRecipe },
+                {"NewIngredients", DraftIngredients }
             };
             await Shell.Current.GoToAsync("..", param);
         }

@@ -26,11 +26,19 @@ namespace ChefMate_YR6LYT
         [ObservableProperty]
         private Ingredients modifiedIngredients;
 
+        [ObservableProperty]
+        private bool isItemSelected;
+
         public MainPageViewModel(IChefMateDatabase database)
         {
             this.database = database;
             RecipesList = new ObservableCollection<Recipes>();
             IngredientsList = new ObservableCollection<Ingredients>();
+        }
+
+        partial void OnSelectedRecipeChanged(Recipes value)
+        {
+            IsItemSelected = value != null;
         }
 
         async partial void OnModifiedRecipeChanged(Recipes recipes)

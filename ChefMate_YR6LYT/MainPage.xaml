@@ -9,9 +9,9 @@
 
     <Grid RowDefinitions="Auto, Auto, *" RowSpacing="10" WidthRequest="300" Padding="0, 10">
         <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-            <Button Text="Add Recipe" Command="{Binding ShowAddRecipePageCommand}" BackgroundColor="LightSeaGreen"/>
-            <Button Text="Edit Selected Recipe" Command="{Binding ShowEditRecipePageCommand}" BackgroundColor="Orange" />
-            <Button Text="Delete Selected Recipe" Command="{Binding DeleteRecipeCommand}" BackgroundColor="OrangeRed"/>
+            <Button Text="Create" Command="{Binding ShowAddRecipePageCommand}" BackgroundColor="LimeGreen" FontAttributes="Bold"/>
+            <Button Text="Edit" Command="{Binding ShowEditRecipePageCommand}" BackgroundColor="Orange" IsEnabled="{Binding IsItemSelected}" FontAttributes="Bold"/>
+            <Button Text="Delete" Command="{Binding DeleteRecipeCommand}" BackgroundColor="OrangeRed" IsEnabled="{Binding IsItemSelected}" FontAttributes="Bold"/>
         </HorizontalStackLayout>
         <Border StrokeThickness="5" Stroke="LightSkyBlue" Grid.Row="2" StrokeShape="RoundRectangle 10">
             <CollectionView ItemsSource="{Binding RecipesList}"
