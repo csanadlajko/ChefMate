@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,6 +25,13 @@ namespace ChefMate_YR6LYT
 
         [ObservableProperty]
         ObservableCollection<Ingredients> draftIngredients;
+
+        private IChefMateDatabase database;
+
+        public EditRecipePageViewModel(IChefMateDatabase database)
+        {
+            this.database = database;
+        }
 
         public void InitDraft()
         {
@@ -50,7 +58,7 @@ namespace ChefMate_YR6LYT
             var param = new ShellNavigationQueryParameters
             {
                 { "NewRecipe", DraftRecipe },
-                { "NewIngredients", DraftIngredients }
+                { "NewIngredients", DraftIngredients.ToList() }
             };
             await Shell.Current.GoToAsync("..", param);
         }
@@ -70,13 +78,15 @@ namespace ChefMate_YR6LYT
         }
 
         [RelayCommand]
-        public void RemoveIngredient(Ingredients ingredient)
+        public async Task RemoveIngredient(Ingredients ingredient)
         {
             if (ingredient != null)
             {
+                await database.DeleteIngredientAsync(ingredient.Id);
                 DraftIngredients.Remove(ingredient);
             }
             else
+                WeakReferenceMessenger.Default.Send("Deleting ingredient failed!");
                 return;
         }
     }

@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +26,7 @@ namespace ChefMate_YR6LYT
         private Recipes modifiedRecipe;
 
         [ObservableProperty]
-        private Ingredients modifiedIngredients;
+        private List<Ingredients> modifiedIngredients;
 
         [ObservableProperty]
         private bool isItemSelected;
@@ -53,29 +55,59 @@ namespace ChefMate_YR6LYT
                 }
                 else
                     await database.AddRecipeAsync(recipes);
+
                 RecipesList.Add(recipes);
+
+                if (ModifiedIngredients != null && SelectedRecipe != null)
+                {
+                    foreach (var ingredient in ModifiedIngredients)
+                    {
+                        ingredient.RecipeId = recipes.Id;
+                        await database.AddIngredientAsync(ingredient);
+                        IngredientsList.Add(ingredient);
+                    }
+                }
+                ModifiedIngredients = null;
             }
         }
 
-        async partial void OnModifiedIngredientsChanged(Ingredients ingredients)
+        async partial void OnModifiedIngredientsChanged(List<Ingredients> ingredients)
         {
             if (ingredients != null)
             {
-                if (SelectedRecipe != null)
+                var recipeId = 0;
+
+                if (ModifiedRecipe != null)
+                    recipeId = ModifiedRecipe.Id;
+                else if (SelectedRecipe != null)
+                    recipeId = SelectedRecipe.Id;
+
+                if (recipeId == 0)
                 {
-                    await database.UpdateIngredientAsync(ingredients);
-
-                    var existing = IngredientsList.FirstOrDefault(i => i.Id == ingredients.Id);
-                    ingredients.RecipeId = ModifiedRecipe.Id;
-
-                    if (existing != null)
-                        IngredientsList.Remove(existing);
-
+                    ModifiedIngredients = null;
+                    WeakReferenceMessenger.Default.Send("Failed to save ingredients for new recipe.");
+                    return;
                 }
-                else
-                    await database.AddIngredientAsync(ingredients);
-                IngredientsList.Add(ingredients);
+
+                foreach (var ingredient in ingredients)
+                {
+                    if (ingredient.Id != 0)
+                    {
+                        ingredient.RecipeId = recipeId;
+
+                        await database.UpdateIngredientAsync(ingredient);
+
+                        var existing = IngredientsList.FirstOrDefault(i => i.Id == ingredient.Id);
+
+                        if (existing != null)
+                            IngredientsList.Remove(existing);
+                    }
+                    else
+                        await database.AddIngredientAsync(ingredient);
+                    IngredientsList.Add(ingredient);
+                }
             }
+            ModifiedIngredients = null;
         }
 
         [RelayCommand]
