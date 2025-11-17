@@ -66,6 +66,29 @@
                                 <Entry Placeholder="Ingredient created at"
                                        Text="{Binding CreatedAt, Mode=TwoWay}"
                                        IsReadOnly="True"/>
+
+                                <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
+                                    <Button Text="Take photo" 
+                                        BackgroundColor="White" 
+                                        FontAttributes="Bold" 
+                                        TextColor="Black"
+                                        Command="{Binding BindingContext.TakePhotoCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                        CommandParameter="{Binding .}"/>
+                                    
+                                    <Button Text="Upload photo" 
+                                        BackgroundColor="White" 
+                                        FontAttributes="Bold" 
+                                        TextColor="Black"
+                                        Command="{Binding BindingContext.UploadPhotoCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                        CommandParameter="{Binding .}"/>
+                                </HorizontalStackLayout>
+
+                                <Image Source="{Binding ImagePath}"
+                                       HeightRequest="100"
+                                       WidthRequest="100"
+                                       HorizontalOptions="Center"/>
+
+
                             </VerticalStackLayout>
 
                             <Button Grid.Column="1"

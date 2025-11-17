@@ -66,9 +66,48 @@ namespace ChefMate_YR6LYT
                 Name = string.Empty,
                 Description = string.Empty,
                 Quantity = string.Empty,
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.Now,
+                ImagePath = string.Empty
             };
             IngredientsToAdd.Add(newIngredient);
+        }
+
+        private async Task SavePhotoAsync(FileResult photo, Ingredients? ingredient)
+        {
+            if (photo != null)
+            {
+                string localUrl = Path.Combine(FileSystem.Current.AppDataDirectory, photo.FileName);
+                if (!File.Exists(localUrl))
+                {
+                    using Stream stream = await photo.OpenReadAsync();
+                    using FileStream fileStream = File.OpenWrite(localUrl);
+                    await stream.CopyToAsync(fileStream);
+                }
+                ingredient.ImagePath = localUrl;
+            }
+        }
+
+
+        [RelayCommand]
+        async Task TakePhotoAsync(Ingredients? ingredient)
+        {
+            if (MediaPicker.Default.IsCaptureSupported)
+            {
+                var photo = await MediaPicker.Default.CapturePhotoAsync();
+                await SavePhotoAsync(photo, ingredient);
+            }
+            else
+            {
+                WeakReferenceMessenger.Default.Send("Photo capture is not supported on this device.");
+                return;
+            }
+        }
+
+        [RelayCommand]
+        async Task UploadPhotoAsync(Ingredients? ingredient)
+        {
+            var photo = await MediaPicker.Default.PickPhotoAsync();
+            await SavePhotoAsync(photo, ingredient);
         }
     }
 }

@@ -8,10 +8,13 @@
              Title="RecipePage">
 
     <Grid RowDefinitions="Auto, Auto, *" RowSpacing="10" WidthRequest="300" Padding="0, 10">
-        <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+        <HorizontalStackLayout Spacing="10" HorizontalOptions="Center" Grid.Row="0">
             <Button Text="Create" Command="{Binding ShowAddRecipePageCommand}" BackgroundColor="LimeGreen" FontAttributes="Bold"/>
             <Button Text="Edit" Command="{Binding ShowEditRecipePageCommand}" BackgroundColor="Orange" IsEnabled="{Binding IsItemSelected}" FontAttributes="Bold"/>
             <Button Text="Delete" Command="{Binding DeleteRecipeCommand}" BackgroundColor="OrangeRed" IsEnabled="{Binding IsItemSelected}" FontAttributes="Bold"/>
+        </HorizontalStackLayout>
+        <HorizontalStackLayout Grid.Row="1" HorizontalOptions="Center" Spacing="10">
+            <Entry Placeholder="Search recipe"/>
         </HorizontalStackLayout>
         <Border StrokeThickness="5" Stroke="LightSkyBlue" Grid.Row="2" StrokeShape="RoundRectangle 10">
             <CollectionView ItemsSource="{Binding RecipesList}"

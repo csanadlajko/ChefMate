@@ -68,11 +68,12 @@ namespace ChefMate_YR6LYT
         {
             Ingredients newIngredient = new Ingredients
             {
-                RecipeId = DraftRecipe.Id,
+                RecipeId = SelectedRecipe.Id,
                 Name = string.Empty,
                 Quantity = string.Empty,
                 CreatedAt = DateTime.Now,
-                Description = string.Empty
+                Description = string.Empty,
+                ImagePath = string.Empty
             };
             DraftIngredients.Add(newIngredient);
         }
@@ -89,5 +90,43 @@ namespace ChefMate_YR6LYT
                 WeakReferenceMessenger.Default.Send("Deleting ingredient failed!");
                 return;
         }
+
+        private async Task SavePhotoAsync(FileResult image, Ingredients? ingredient)
+        {
+            if (image != null && ingredient != null)
+            {
+                var localUrl = Path.Combine(FileSystem.Current.AppDataDirectory, image.FileName);
+                if (!File.Exists(localUrl))
+                {
+                    using Stream stream = await image.OpenReadAsync();
+                    using FileStream fileStream = File.OpenWrite(localUrl);
+                    await stream.CopyToAsync(fileStream);
+                }
+                ingredient.ImagePath = image.FullPath;
+            }
+        }
+
+        [RelayCommand]
+        async Task UploadPhotoAsync(Ingredients? ingredient)
+        {
+            var picked = await MediaPicker.Default.PickPhotoAsync();
+            await SavePhotoAsync(picked, ingredient);
+        }
+
+        [RelayCommand]
+        async Task TakePhotoAsync(Ingredients? ingredient)
+        {
+            if (MediaPicker.Default.IsCaptureSupported)
+            {
+                var takenPhoto = await MediaPicker.Default.CapturePhotoAsync();
+                await SavePhotoAsync(takenPhoto, ingredient);
+            }
+            else
+            {
+                WeakReferenceMessenger.Default.Send("Photo capture is not supported on this device.");
+                return;
+            }
+        }
+
     }
 }

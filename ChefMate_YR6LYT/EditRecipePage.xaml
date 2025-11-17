@@ -56,16 +56,35 @@
                                     <Entry Text="{Binding Quantity, Mode=TwoWay}" Placeholder="Ingredient quentity" />
                                     <Label Text="Ingredient created at" />
                                     <Entry Text="{Binding CreatedAt, Mode=TwoWay}" IsReadOnly="True"/>
-                                </VerticalStackLayout>
 
-                                <Button Grid.Column="1"
-                                    Text="Remove"
-                                    BackgroundColor="OrangeRed"
-                                    VerticalOptions="Start"
-                                    Margin="5"
-                                    Command="{Binding BindingContext.RemoveIngredientCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
-                                    CommandParameter="{Binding .}"/>
-                            </Grid>
+                                    <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
+                                        <Button Text="Take photo" 
+                                                BackgroundColor="White" 
+                                                FontAttributes="Bold" 
+                                                TextColor="Black"
+                                                Command="{Binding BindingContext.TakePhotoCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                                CommandParameter="{Binding .}"/>
+                                        <Button Text="Upload photo" 
+                                                BackgroundColor="White" 
+                                                FontAttributes="Bold" 
+                                                TextColor="Black"
+                                                Command="{Binding BindingContext.UploadPhotoCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"/>
+                                    </HorizontalStackLayout>
+
+                                    <Image Source="{Binding ImagePath}"
+                                           HeightRequest="400"
+                                           WidthRequest="400"
+                                           HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+
+                            <Button Grid.Column="1"
+                                        Text="Remove"
+                                        BackgroundColor="OrangeRed"
+                                        VerticalOptions="Start"
+                                        Margin="5"
+                                        Command="{Binding BindingContext.RemoveIngredientCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                        CommandParameter="{Binding .}"/>
+                        </Grid>
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
