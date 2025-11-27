@@ -47,7 +47,9 @@ namespace ChefMate_YR6LYT
         {
             if (recipes != null)
             {
-                if (SelectedRecipe != null)
+                
+                bool editing = selectedRecipe != null;
+                if (editing)
                 {
                     RecipesList.Remove(SelectedRecipe);
                     SelectedRecipe = null;
@@ -58,7 +60,7 @@ namespace ChefMate_YR6LYT
 
                 RecipesList.Add(recipes);
 
-                if (ModifiedIngredients != null && SelectedRecipe == null)
+                if (ModifiedIngredients != null && !editing)
                 {
                     foreach (var ingredient in ModifiedIngredients)
                     {
