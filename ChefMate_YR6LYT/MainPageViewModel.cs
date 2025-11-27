@@ -148,6 +148,31 @@ namespace ChefMate_YR6LYT
             }
         }
 
+        [RelayCommand]
+        public async Task ShareRecipe(Recipes? recipe)
+        {
+            if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
+            {
+                var ingredients = await database.GetIngredientsForRecipeAsync(SelectedRecipe.Id);
+                string ingredientTotalString = "";
+                if (ingredients != null && ingredients.Count > 0)
+                {
+                    foreach (var ingredient in ingredients)
+                    {
+                        ingredientTotalString += ingredient.ToString();
+                    }
+                }
+
+                await Share.Default.RequestAsync(new ShareTextRequest
+                {
+                    Title = "Share Recipe",
+                    Text = $"{SelectedRecipe.ToString()}\n{ingredientTotalString}"
+                });
+            }
+            else
+                WeakReferenceMessenger.Default.Send("No internet access");
+        }
+
         public async Task InitializeAsync()
         {
             var recipes = await database.GetAllRecipesAsync();

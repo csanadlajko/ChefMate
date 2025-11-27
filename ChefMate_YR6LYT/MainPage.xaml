@@ -12,6 +12,7 @@
             <Button Text="Create" Command="{Binding ShowAddRecipePageCommand}" BackgroundColor="LimeGreen" FontAttributes="Bold"/>
             <Button Text="Edit" Command="{Binding ShowEditRecipePageCommand}" BackgroundColor="Orange" IsEnabled="{Binding IsItemSelected}" FontAttributes="Bold"/>
             <Button Text="Delete" Command="{Binding DeleteRecipeCommand}" BackgroundColor="OrangeRed" IsEnabled="{Binding IsItemSelected}" FontAttributes="Bold"/>
+            <Button Text="Share" Command="{Binding ShareRecipeCommand}" BackgroundColor="LightSkyBlue" IsEnabled="{Binding IsItemSelected}" FontAttributes="Bold"/>
         </HorizontalStackLayout>
         <HorizontalStackLayout Grid.Row="1" HorizontalOptions="Center" Spacing="10">
             <Entry Placeholder="Search recipe"/>
@@ -23,27 +24,38 @@
                             Background="WhiteSmoke">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="local:Recipes">
-                        <!--<SwipeView></SwipeView> swipe to share, might be implemented later on -->
-                        <Border StrokeThickness="2" Stroke="Black" Margin="5" Padding="5" StrokeShape="RoundRectangle 10">
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItem Text="Share recipe" IconImageSource="share_icon.png" BackgroundColor="LightSkyBlue"
+                                           Command="{Binding BindingContext.ShareRecipeCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                           CommandParameter="{Binding .}" />
+                            </SwipeView.RightItems>
+
                             <!--visualstatemanager to change background color when selecting an item-->
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup Name="CommonStates">
-                                    <VisualState Name="Normal"></VisualState>
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter TargetName="itemBorder" Property="BackgroundColor" Value="Transparent"></Setter>
+                                        </VisualState.Setters>
+                                    </VisualState>
                                     <VisualState Name="Selected">
                                         <VisualState.Setters>
-                                            <Setter Property="BackgroundColor" Value="LightSkyBlue"></Setter>
+                                            <Setter TargetName="itemBorder" Property="BackgroundColor" Value="LightSkyBlue"></Setter>
                                         </VisualState.Setters>
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
 
-                            <Grid ColumnDefinitions="3*,*">
-                                <VerticalStackLayout>
-                                    <Label Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold" TextColor="Black"/>
-                                    <Label Text="{Binding UpdatedAt, StringFormat='Last updated at: {0}'}" FontSize="Small" TextColor="Black"/>
-                                </VerticalStackLayout>
-                            </Grid>
-                        </Border>
+                            <Border x:Name="itemBorder" StrokeThickness="2" Stroke="Black" Margin="5" Padding="5" StrokeShape="RoundRectangle 10">
+                                <Grid ColumnDefinitions="3*,*">
+                                    <VerticalStackLayout>
+                                        <Label Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold" TextColor="Black"/>
+                                        <Label Text="{Binding UpdatedAt, StringFormat='Last updated at: {0}'}" FontSize="Small" TextColor="Black"/>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+                        </SwipeView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

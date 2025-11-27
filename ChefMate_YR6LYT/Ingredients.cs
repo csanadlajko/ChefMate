@@ -37,5 +37,13 @@ namespace ChefMate_YR6LYT
         {
             return (Ingredients)this.MemberwiseClone();
         }
+
+        public override string? ToString()
+        {
+            return $"Ingredient name: {Name}" +
+                $"Ingredient description: {Description}" +
+                $"Ingredient quantity: {Quantity}" +
+                $"Ingredient created at: {CreatedAt}";
+        }
     }
 }

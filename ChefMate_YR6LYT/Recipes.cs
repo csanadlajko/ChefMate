@@ -37,5 +37,15 @@ namespace ChefMate_YR6LYT
         {
             return (Recipes)this.MemberwiseClone();
         }
+
+        public override string? ToString()
+        {
+            return $"Recipe name: {Name}\n" +
+                $"Description: {Description}\n" +
+                $"Created at: {CreatedAt}\n" +
+                $"Last modified at: {UpdatedAt}\n" +
+                $"Preparation time in minutes: {PreparationTimeMinutes}" +
+                $"Difficulty: {Difficulty}";
+        }
     }
 }
