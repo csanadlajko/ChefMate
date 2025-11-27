@@ -31,11 +31,50 @@ namespace ChefMate_YR6LYT
         [ObservableProperty]
         private bool isItemSelected;
 
+        [ObservableProperty]
+        private string searchQuery;
+
+        private List<Recipes> recipesForFilter = new List<Recipes>();
+
         public MainPageViewModel(IChefMateDatabase database)
         {
             this.database = database;
             RecipesList = new ObservableCollection<Recipes>();
             IngredientsList = new ObservableCollection<Ingredients>();
+        }
+
+        partial void OnSearchQueryChanged(string value)
+        {
+            FilteredSearch(value);
+        }
+
+        private void FilteredSearch(string query)
+        {
+            var previousSelectedRecipeId = SelectedRecipe?.Id ?? 0;
+            SelectedRecipe = null;
+
+            RecipesList.Clear();
+
+            IEnumerable<Recipes> recipes;
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                recipes = recipesForFilter;
+            }
+            else
+            {
+                recipes = recipesForFilter.Where(r => !string.IsNullOrEmpty(r.Name) && r.Name.Contains(query, StringComparison.OrdinalIgnoreCase));
+            }
+
+            foreach (var item in recipes)
+            {
+                RecipesList.Add(item);
+            }
+            if (previousSelectedRecipeId != 0)
+            {
+                var newSelected = RecipesList.FirstOrDefault(r => r.Id == previousSelectedRecipeId);
+                if (newSelected != null)
+                    SelectedRecipe = newSelected;
+            }        
         }
 
         partial void OnSelectedRecipeChanged(Recipes value)
@@ -69,6 +108,7 @@ namespace ChefMate_YR6LYT
                         IngredientsList.Add(ingredient);
                     }
                 }
+                FilteredSearch(SearchQuery);
                 ModifiedIngredients = null;
             }
         }
@@ -176,6 +216,7 @@ namespace ChefMate_YR6LYT
         public async Task InitializeAsync()
         {
             var recipes = await database.GetAllRecipesAsync();
+            recipesForFilter = recipes;
             RecipesList.Clear();
             recipes.ForEach(r => RecipesList.Add(r));
             var ingredients = await database.GetAllIngredientsAsync();
