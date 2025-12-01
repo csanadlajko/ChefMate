@@ -55,6 +55,7 @@ namespace ChefMate_YR6LYT
         [RelayCommand]
         public async Task EditRecipeAsync()
         {
+            DraftRecipe.UpdatedAt = DateTime.Now;
             var param = new ShellNavigationQueryParameters
             {
                 { "NewRecipe", DraftRecipe },

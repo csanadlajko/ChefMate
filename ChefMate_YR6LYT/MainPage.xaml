@@ -16,8 +16,7 @@
         </HorizontalStackLayout>
         <HorizontalStackLayout Grid.Row="1" HorizontalOptions="Center" Spacing="10">
             <Entry Placeholder="Search recipe"
-                   Text="{Binding SearchQuery, Mode=TwoWay}"
-                   HorizontalOptions="FillAndExpand"/>
+                   Text="{Binding SearchQuery, Mode=TwoWay}" />
         </HorizontalStackLayout>
         <Border StrokeThickness="5" Stroke="LightSkyBlue" Grid.Row="2" StrokeShape="RoundRectangle 10">
             <CollectionView ItemsSource="{Binding RecipesList}"

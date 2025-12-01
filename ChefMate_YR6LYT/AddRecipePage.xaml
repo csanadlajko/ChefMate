@@ -32,6 +32,9 @@
             <Entry 
                 Placeholder="Difficulty"
                 Text="{Binding RecipeToAdd.Difficulty}"/>
+            <Label Text="Created at" />
+            <Entry Text="{Binding RecipeToAdd.CreatedAt}" 
+                   IsReadOnly="True"/>
 
             <Label Text="List ingredients" FontAttributes="Bold"/>
 

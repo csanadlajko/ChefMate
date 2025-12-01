@@ -36,6 +36,9 @@
                 Placeholder="Difficulty"
                 Margin="5"
                 Text="{Binding DraftRecipe.Difficulty}"/>
+            <Label Text="Last updated at" />
+            <Entry Text="{Binding DraftRecipe.UpdatedAt}"
+                   Margin="5" />
 
             <Label Text="List ingredients" FontAttributes="Bold"/>
 
