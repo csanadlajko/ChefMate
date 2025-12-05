@@ -87,7 +87,7 @@ namespace ChefMate_YR6LYT
             if (recipes != null)
             {
                 
-                bool editing = selectedRecipe != null;
+                bool editing = SelectedRecipe != null;
                 if (editing)
                 {
                     RecipesList.Remove(SelectedRecipe);
