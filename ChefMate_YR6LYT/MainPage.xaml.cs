@@ -18,8 +18,9 @@ namespace ChefMate_YR6LYT
             });
         }
 
-        private async void OnMainPageLoaded(object? sender, EventArgs e)
+        protected override async void OnAppearing()
         {
+            base.OnAppearing();
             await viewModel.InitializeAsync();
         }
     }

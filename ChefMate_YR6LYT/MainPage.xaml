@@ -4,7 +4,6 @@
              x:Class="ChefMate_YR6LYT.MainPage"
              xmlns:local="clr-namespace:ChefMate_YR6LYT"
              x:DataType="local:MainPageViewModel"
-             Loaded="OnMainPageLoaded"
              Title="RecipePage">
 
     <Grid RowDefinitions="Auto, Auto, *" RowSpacing="10" WidthRequest="300" Padding="0, 10">
