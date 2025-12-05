@@ -87,8 +87,8 @@
                                 </HorizontalStackLayout>
 
                                 <Image Source="{Binding ImagePath}"
-                                       HeightRequest="100"
-                                       WidthRequest="100"
+                                       HeightRequest="400"
+                                       WidthRequest="400"
                                        HorizontalOptions="Center"/>
 
 

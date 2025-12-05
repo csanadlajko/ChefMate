@@ -71,7 +71,8 @@
                                                 BackgroundColor="White" 
                                                 FontAttributes="Bold" 
                                                 TextColor="Black"
-                                                Command="{Binding BindingContext.UploadPhotoCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"/>
+                                                Command="{Binding BindingContext.UploadPhotoCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                                CommandParameter="{Binding .}"/>
                                     </HorizontalStackLayout>
 
                                     <Image Source="{Binding ImagePath}"
